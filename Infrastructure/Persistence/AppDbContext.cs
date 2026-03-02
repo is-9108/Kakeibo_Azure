@@ -10,8 +10,10 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    public DbSet<SampleEntity> SampleEntities => Set<SampleEntity>();
+    public DbSet<UserEntity> Users => Set<UserEntity>();
     public DbSet<CategoryEntity> Categories => Set<CategoryEntity>();
+    public DbSet<TransactionEntity> transactions => Set<TransactionEntity>();
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

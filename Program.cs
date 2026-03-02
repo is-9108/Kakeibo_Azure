@@ -20,11 +20,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 // === クリーンアーキテクチャ: DI 登録 ===
-// Infrastructure（リポジトリ）※ DbContext が Scoped のためリポジトリも Scoped
-builder.Services.AddScoped<IRepository<SampleEntity>, SqlServerSampleRepository>();
-// Application（ユースケース）
-builder.Services.AddScoped<ISampleUseCase, SampleUseCase>();
-builder.Services.AddScoped<IGetSamplesUseCase, GetSamplesUseCase>();
+builder.Services.AddScoped<ICategory, CategoryRepository>();
 
 // Application Insights isn't enabled by default. See https://aka.ms/AAt8mw4.
 // builder.Services
