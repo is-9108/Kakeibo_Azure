@@ -1,0 +1,5 @@
+﻿@Kakeibo_HostAddress = http://localhost:7168
+
+GET {{Kakeibo_HostAddress}}/api/getAllCategories
+
+###

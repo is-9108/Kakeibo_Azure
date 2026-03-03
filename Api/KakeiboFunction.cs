@@ -11,10 +11,12 @@ namespace Kakeibo.Api
     public class KakeiboFunction
     {
         private readonly ICategory _category;
+        private readonly ITransaction _transaction;
 
-        public KakeiboFunction(ICategory category)
+        public KakeiboFunction(ICategory category,ITransaction transaction)
         {
             _category = category;
+            _transaction = transaction;
         }
 
         [Function("GetAllCategories")]
@@ -34,7 +36,7 @@ namespace Kakeibo.Api
                 return errorResponse;
             }
 
-            if(categories == null)
+            if (categories == null)
             {
                 var notFoundResponse = req.CreateResponse(HttpStatusCode.NotFound);
                 await notFoundResponse.WriteAsJsonAsync(new { error = "カテゴリが見つかりませんでした。" }, cancellationToken);
@@ -43,6 +45,35 @@ namespace Kakeibo.Api
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteAsJsonAsync(categories, cancellationToken);
+            return response;
+        }
+
+        [Function("GetAllTransactions")]
+        public async Task<HttpResponseData> GetAllTransactions(
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "getAllCategories")] HttpRequestData req,
+        CancellationToken cancellationToken)
+        {
+            IReadOnlyCollection<TransactionResponse>? transactions;
+
+            try
+            {
+                transactions = await _transaction.GetAllTransactionsAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
+                await errorResponse.WriteAsJsonAsync(new { error = "すべての取引を取得中に問題が発生しました。", details = ex.Message }, cancellationToken);
+                return errorResponse;
+            }
+
+            if (transactions == null)
+            {
+                var notFoundResponse = req.CreateResponse(HttpStatusCode.NotFound);
+                await notFoundResponse.WriteAsJsonAsync(new { error = "取引が見つかりませんでした。" }, cancellationToken);
+                return notFoundResponse;
+            }
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(transactions, cancellationToken);
             return response;
         }
     }

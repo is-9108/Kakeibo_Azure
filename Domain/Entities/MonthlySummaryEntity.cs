@@ -11,7 +11,6 @@ namespace Kakeibo.Domain.Entities
     {
         [Key]
         public string Month { get; set; } = string.Empty;
-        public string UserId { get; set; } = string.Empty;
         public int Shuusi { get; set; }
 
         //支出(IsIncome = false)
@@ -31,6 +30,5 @@ namespace Kakeibo.Domain.Entities
         public int Kyuryo { get; set; }
         public int RinjiShunyu { get; set; }
 
-        public UserEntity User { get; set; }
     }
 }
