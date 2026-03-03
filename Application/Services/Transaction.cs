@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Kakeibo.Application.DTOs.TransactionRequest;
 
 namespace Kakeibo.Application.Services
 {
@@ -15,6 +16,12 @@ namespace Kakeibo.Application.Services
         public Transaction(ITransaction transaction)
         {
             _transaction = transaction;
+        }
+
+        public async Task AddTransactionAsync(CreateTransactionRequest request, CancellationToken cancellationToken = default)
+        {
+            await _transaction.AddTransactionAsync(request, cancellationToken);
+            return;
         }
 
         public async Task<IReadOnlyList<TransactionResponse>> GetAllTransactionsAsync(CancellationToken cancellationToken = default)

@@ -8,5 +8,6 @@ namespace Kakeibo.Application.DTOs
 {
     public class TransactionRequest
     {
+        public record CreateTransactionRequest(int CategoryId, string Memo, int Amount,DateTime Date);
     }
 }

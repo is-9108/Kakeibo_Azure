@@ -21,6 +21,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // === クリーンアーキテクチャ: DI 登録 ===
 builder.Services.AddScoped<ICategory, CategoryRepository>();
+builder.Services.AddScoped<ITransaction, TransactionRepository>();
 
 // Application Insights isn't enabled by default. See https://aka.ms/AAt8mw4.
 // builder.Services

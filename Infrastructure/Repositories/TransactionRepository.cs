@@ -1,5 +1,6 @@
 ﻿using Kakeibo.Application.DTOs;
 using Kakeibo.Application.Interfaces;
+using Kakeibo.Domain.Entities;
 using Kakeibo.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Kakeibo.Application.DTOs.TransactionRequest;
 
 namespace Kakeibo.Infrastructure.Repositories
 {
@@ -17,6 +19,20 @@ namespace Kakeibo.Infrastructure.Repositories
         public TransactionRepository(AppDbContext context)
         {
             _context = context;
+        }
+
+        public async Task AddTransactionAsync(CreateTransactionRequest request, CancellationToken cancellationToken = default)
+        {
+            _context.transactions.Add(new TransactionEntity
+            {
+                CategoryId = request.CategoryId,
+                Memo = request.Memo,
+                Amount = request.Amount,
+                Date = request.Date
+            });
+
+             await _context.SaveChangesAsync(cancellationToken);
+            return;
         }
 
         public async Task<IReadOnlyList<TransactionResponse>> GetAllTransactionsAsync(CancellationToken cancellationToken = default)

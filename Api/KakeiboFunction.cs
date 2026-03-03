@@ -5,6 +5,7 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using System.Net;
 using System.Text.Json;
+using static Kakeibo.Application.DTOs.TransactionRequest;
 
 namespace Kakeibo.Api
 {
@@ -13,7 +14,7 @@ namespace Kakeibo.Api
         private readonly ICategory _category;
         private readonly ITransaction _transaction;
 
-        public KakeiboFunction(ICategory category,ITransaction transaction)
+        public KakeiboFunction(ICategory category, ITransaction transaction)
         {
             _category = category;
             _transaction = transaction;
@@ -50,7 +51,7 @@ namespace Kakeibo.Api
 
         [Function("GetAllTransactions")]
         public async Task<HttpResponseData> GetAllTransactions(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "getAllCategories")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "getAllTransactions")] HttpRequestData req,
         CancellationToken cancellationToken)
         {
             IReadOnlyCollection<TransactionResponse>? transactions;
@@ -74,6 +75,35 @@ namespace Kakeibo.Api
             }
             var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteAsJsonAsync(transactions, cancellationToken);
+            return response;
+        }
+        [Function("AddTransaction")]
+        public async Task<HttpResponseData> AddTransaction(
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "addTransaction")] HttpRequestData req,
+        CancellationToken cancellationToken)
+        {
+            CreateTransactionRequest? request;
+            try
+            {
+                request = await JsonSerializer.DeserializeAsync<CreateTransactionRequest>(
+                    req.Body, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }, cancellationToken);
+            }
+            catch
+            {
+                var bad = req.CreateResponse(HttpStatusCode.BadRequest);
+                await bad.WriteAsJsonAsync(new { error = "Invalid request body." }, cancellationToken);
+                return bad;
+            }
+
+            if (request == null) 
+            { 
+                var bad = req.CreateResponse(HttpStatusCode.BadRequest);
+                await bad.WriteAsJsonAsync(new { error = "Request body is required." }, cancellationToken);
+                return bad;
+            }
+
+            await _transaction.AddTransactionAsync(request, cancellationToken);
+            var response = req.CreateResponse(HttpStatusCode.Created);
             return response;
         }
     }
