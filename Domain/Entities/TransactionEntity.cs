@@ -14,12 +14,12 @@ namespace Kakeibo.Domain.Entities
         public string UserId { get; set; }
         public int CategoryId { get; set; }
         public int Amount { get; set; }
-        public bool IsIncome { get; set; }
         public DateTime Date { get; set; }
-        public string? Memo { get; set; }
 
         [MaxLength(256)]
+        public string? Memo { get; set; }
+
         public UserEntity User { get; set; }
-        CategoryEntity Category { get; set; }
+        public CategoryEntity Category { get; set; }
     }
 }

@@ -21,6 +21,6 @@ namespace Kakeibo.Domain.Entities
 
         [MaxLength(256)]
         public string PasswordHash { get; set; }
-        public DateTime CreateAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

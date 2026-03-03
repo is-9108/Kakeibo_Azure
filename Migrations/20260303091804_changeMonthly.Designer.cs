@@ -4,6 +4,7 @@ using Kakeibo.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kakeibo.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260303091804_changeMonthly")]
+    partial class changeMonthly
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,13 +33,9 @@ namespace Kakeibo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("IsIncome")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -69,9 +68,6 @@ namespace Kakeibo.Migrations
                     b.Property<int>("Shokuhi")
                         .HasColumnType("int");
 
-                    b.Property<int>("Shuusi")
-                        .HasColumnType("int");
-
                     b.Property<int>("Sonota")
                         .HasColumnType("int");
 
@@ -81,12 +77,11 @@ namespace Kakeibo.Migrations
                     b.Property<int>("Suidouhi")
                         .HasColumnType("int");
 
-                    b.Property<int>("Tsuusinhi")
+                    b.Property<int>("Total")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(256)");
+                    b.Property<int>("Tsuusinhi")
+                        .HasColumnType("int");
 
                     b.Property<int>("Yachin")
                         .HasColumnType("int");
@@ -95,8 +90,6 @@ namespace Kakeibo.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Month");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("MonthlySummaries");
                 });
@@ -118,6 +111,9 @@ namespace Kakeibo.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsIncome")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Memo")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -127,8 +123,6 @@ namespace Kakeibo.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("UserId");
 
@@ -141,7 +135,7 @@ namespace Kakeibo.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -164,32 +158,13 @@ namespace Kakeibo.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Kakeibo.Domain.Entities.MonthlySummaryEntity", b =>
-                {
-                    b.HasOne("Kakeibo.Domain.Entities.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Kakeibo.Domain.Entities.TransactionEntity", b =>
                 {
-                    b.HasOne("Kakeibo.Domain.Entities.CategoryEntity", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Kakeibo.Domain.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
 
                     b.Navigation("User");
                 });
