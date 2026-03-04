@@ -1,4 +1,4 @@
-﻿using Kakeibo.Application.DTOs;
+using Kakeibo.Application.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +12,7 @@ namespace Kakeibo.Application.Interfaces
     {
         Task<IReadOnlyList<TransactionResponse>> GetAllTransactionsAsync(CancellationToken cancellationToken = default);
         Task AddTransactionAsync(CreateTransactionRequest request, CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<TransactionResponse>> SearchTransactionAsync(int id, CancellationToken cancellationToken = default);
+        Task UpdateTransactionAsync(UpdateTransactionRequest request, CancellationToken cancellationToken = default);
     }
 }

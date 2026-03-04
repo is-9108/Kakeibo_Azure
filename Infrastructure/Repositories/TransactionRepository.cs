@@ -1,4 +1,4 @@
-﻿using Kakeibo.Application.DTOs;
+using Kakeibo.Application.DTOs;
 using Kakeibo.Application.Interfaces;
 using Kakeibo.Domain.Entities;
 using Kakeibo.Infrastructure.Persistence;
@@ -39,6 +39,20 @@ namespace Kakeibo.Infrastructure.Repositories
         {
             return await _context.transactions
                 .Include(t => t.Category) // カテゴリを含める
+                .Select(t => new TransactionResponse(
+                    t.Id,
+                    t.Category.Name,
+                    t.Memo,
+                    t.Amount,
+                    t.Date))
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IReadOnlyList<TransactionResponse>> SearchTransactionAsync(int id, CancellationToken cancellationToken = default)
+        {
+            return await _context.transactions
+                .Include(t => t.Category)
+                .Where(t => id == t.Id)
                 .Select(t => new TransactionResponse(
                     t.Id,
                     t.Category.Name,
