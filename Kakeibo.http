@@ -37,3 +37,33 @@ Content-Type: application/json
 DELETE {{Kakeibo_HostAddress}}/api/deleteTransaction/1
 
 ###
+
+POST {{Kakeibo_HostAddress}}/api/createSubscriptions
+Content-Type: application/json
+
+{
+  "name": "ネトフリ",
+  "amount": 900
+}
+###
+
+GET {{Kakeibo_HostAddress}}/api/getAllSubscriptions
+
+###
+
+PUT {{Kakeibo_HostAddress}}/api/updateSubscriptions
+Content-Type: application/json
+{
+  "id": 1,
+  "name": "ネトフリ",
+  "amount": 900
+}
+###
+
+DELETE {{Kakeibo_HostAddress}}/api/deleteSubscriptions/1
+
+###
+
+POST {{Kakeibo_HostAddress}}/api/registerSubscriptions
+
+###

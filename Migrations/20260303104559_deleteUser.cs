@@ -17,14 +17,14 @@ namespace Kakeibo.Migrations
 
             migrationBuilder.DropForeignKey(
                 name: "FK_transactions_Users_UserId",
-                table: "transactions");
+                table: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropIndex(
                 name: "IX_transactions_UserId",
-                table: "transactions");
+                table: "Transactions");
 
             migrationBuilder.DropIndex(
                 name: "IX_MonthlySummaries_UserId",
@@ -32,7 +32,7 @@ namespace Kakeibo.Migrations
 
             migrationBuilder.DropColumn(
                 name: "UserId",
-                table: "transactions");
+                table: "Transactions");
 
             migrationBuilder.DropColumn(
                 name: "UserId",
@@ -44,7 +44,7 @@ namespace Kakeibo.Migrations
         {
             migrationBuilder.AddColumn<string>(
                 name: "UserId",
-                table: "transactions",
+                table: "Transactions",
                 type: "nvarchar(256)",
                 nullable: false,
                 defaultValue: "");
@@ -73,7 +73,7 @@ namespace Kakeibo.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_transactions_UserId",
-                table: "transactions",
+                table: "Transactions",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -91,7 +91,7 @@ namespace Kakeibo.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_transactions_Users_UserId",
-                table: "transactions",
+                table: "Transactions",
                 column: "UserId",
                 principalTable: "Users",
                 principalColumn: "Id",

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kakeibo.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260303091804_changeMonthly")]
-    partial class changeMonthly
+    [Migration("20260304065005_addSubscription")]
+    partial class addSubscription
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,9 +33,13 @@ namespace Kakeibo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("IsIncome")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -68,6 +72,9 @@ namespace Kakeibo.Migrations
                     b.Property<int>("Shokuhi")
                         .HasColumnType("int");
 
+                    b.Property<int>("Shuusi")
+                        .HasColumnType("int");
+
                     b.Property<int>("Sonota")
                         .HasColumnType("int");
 
@@ -75,9 +82,6 @@ namespace Kakeibo.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Suidouhi")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Total")
                         .HasColumnType("int");
 
                     b.Property<int>("Tsuusinhi")
@@ -92,6 +96,26 @@ namespace Kakeibo.Migrations
                     b.HasKey("Month");
 
                     b.ToTable("MonthlySummaries");
+                });
+
+            modelBuilder.Entity("Kakeibo.Domain.Entities.SubscriptionEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subscriptions");
                 });
 
             modelBuilder.Entity("Kakeibo.Domain.Entities.TransactionEntity", b =>
@@ -111,62 +135,26 @@ namespace Kakeibo.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsIncome")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Memo")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(256)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("Kakeibo.Domain.Entities.UserEntity", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("Kakeibo.Domain.Entities.TransactionEntity", b =>
                 {
-                    b.HasOne("Kakeibo.Domain.Entities.UserEntity", "User")
+                    b.HasOne("Kakeibo.Domain.Entities.CategoryEntity", "Category")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

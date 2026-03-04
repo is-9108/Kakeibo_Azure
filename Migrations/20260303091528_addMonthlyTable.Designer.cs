@@ -74,7 +74,7 @@ namespace Kakeibo.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("transactions");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Kakeibo.Domain.Entities.UserEntity", b =>

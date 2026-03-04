@@ -12,7 +12,7 @@ namespace Kakeibo.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "IsIncome",
-                table: "transactions");
+                table: "Transactions");
 
             migrationBuilder.RenameColumn(
                 name: "CreateAt",
@@ -49,7 +49,7 @@ namespace Kakeibo.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_transactions_CategoryId",
-                table: "transactions",
+                table: "Transactions",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
@@ -67,7 +67,7 @@ namespace Kakeibo.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_transactions_Categories_CategoryId",
-                table: "transactions",
+                table: "Transactions",
                 column: "CategoryId",
                 principalTable: "Categories",
                 principalColumn: "Id",
@@ -83,11 +83,11 @@ namespace Kakeibo.Migrations
 
             migrationBuilder.DropForeignKey(
                 name: "FK_transactions_Categories_CategoryId",
-                table: "transactions");
+                table: "Transactions");
 
             migrationBuilder.DropIndex(
                 name: "IX_transactions_CategoryId",
-                table: "transactions");
+                table: "Transactions");
 
             migrationBuilder.DropIndex(
                 name: "IX_MonthlySummaries_UserId",
@@ -113,7 +113,7 @@ namespace Kakeibo.Migrations
 
             migrationBuilder.AddColumn<bool>(
                 name: "IsIncome",
-                table: "transactions",
+                table: "Transactions",
                 type: "bit",
                 nullable: false,
                 defaultValue: false);

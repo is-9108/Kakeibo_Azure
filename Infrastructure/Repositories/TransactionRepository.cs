@@ -23,7 +23,7 @@ namespace Kakeibo.Infrastructure.Repositories
 
         public async Task AddTransactionAsync(CreateTransactionRequest request, CancellationToken cancellationToken = default)
         {
-            _context.transactions.Add(new TransactionEntity
+            _context.Transactions.Add(new TransactionEntity
             {
                 CategoryId = request.CategoryId,
                 Memo = request.Memo,
@@ -37,19 +37,19 @@ namespace Kakeibo.Infrastructure.Repositories
 
         public async Task DeleteTransactionAsync(int id, CancellationToken cancellationToken = default)
         {
-            var entity = await _context.transactions.Where(t => t.Id == id).FirstOrDefaultAsync();
+            var entity = await _context.Transactions.Where(t => t.Id == id).FirstOrDefaultAsync();
             
             if (entity == null)
                 throw new InvalidOperationException("取引が存在しません");
 
-            _context.transactions.Remove(entity);
+            _context.Transactions.Remove(entity);
 
             await _context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IReadOnlyList<TransactionResponse>> GetAllTransactionsAsync(CancellationToken cancellationToken = default)
         {
-            return await _context.transactions
+            return await _context.Transactions
                 .Include(t => t.Category) // カテゴリを含める
                 .Select(t => new TransactionResponse(
                     t.Id,
@@ -73,7 +73,7 @@ namespace Kakeibo.Infrastructure.Repositories
                     Memo = t.Name,
                     Date = DateTime.UtcNow
                 };
-                _context.transactions.Add(transaction);
+                _context.Transactions.Add(transaction);
             }
             await _context.SaveChangesAsync(cancellationToken);
 
@@ -81,7 +81,7 @@ namespace Kakeibo.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<TransactionResponse>> SearchTransactionAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _context.transactions
+            return await _context.Transactions
                 .Include(t => t.Category)
                 .Where(t => id == t.Id)
                 .Select(t => new TransactionResponse(
@@ -95,7 +95,7 @@ namespace Kakeibo.Infrastructure.Repositories
 
         public async Task UpdateTransactionAsync(UpdateTransactionRequest request, CancellationToken cancellationToken = default)
         {
-            var transaction = _context.transactions.Where(t =>  t.Id == request.Id).FirstOrDefault();
+            var transaction = _context.Transactions.Where(t =>  t.Id == request.Id).FirstOrDefault();
             if (transaction == null)
                 throw new InvalidOperationException("取引が存在しません");
 

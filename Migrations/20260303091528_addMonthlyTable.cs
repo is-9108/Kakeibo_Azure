@@ -30,7 +30,7 @@ namespace Kakeibo.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "transactions",
+                name: "Transactions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -55,7 +55,7 @@ namespace Kakeibo.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_transactions_UserId",
-                table: "transactions",
+                table: "Transactions",
                 column: "UserId");
         }
 
@@ -63,7 +63,7 @@ namespace Kakeibo.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "transactions");
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "Users");

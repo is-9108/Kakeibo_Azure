@@ -9,47 +9,15 @@ using static Kakeibo.Application.DTOs.TransactionRequest;
 
 namespace Kakeibo.Api
 {
-    public class KakeiboFunction
+    public class TransactionFunction
     {
-        private readonly ICategory _category;
         private readonly ITransaction _transaction;
-        private readonly ISubscription _subscription;
 
-        public KakeiboFunction(ICategory category, ITransaction transaction, ISubscription subscription)
+        public TransactionFunction(ITransaction transaction)
         {
-            _category = category;
             _transaction = transaction;
-            _subscription = subscription;
         }
 
-        [Function("GetAllCategories")]
-        public async Task<HttpResponseData> GetAllCategories(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "getAllCategories")] HttpRequestData req,
-        CancellationToken cancellationToken)
-        {
-            IReadOnlyCollection<CategoryResponse>? categories;
-            try
-            {
-                categories = await _category.GetAllCategoriesAsync(cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-                await errorResponse.WriteAsJsonAsync(new { error = "すべてのカテゴリを取得中に問題が発生しました。", details = ex.Message }, cancellationToken);
-                return errorResponse;
-            }
-
-            if (categories == null)
-            {
-                var notFoundResponse = req.CreateResponse(HttpStatusCode.NotFound);
-                await notFoundResponse.WriteAsJsonAsync(new { error = "カテゴリが見つかりませんでした。" }, cancellationToken);
-                return notFoundResponse;
-            }
-
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(categories, cancellationToken);
-            return response;
-        }
 
         [Function("GetAllTransactions")]
         public async Task<HttpResponseData> GetAllTransactions(
@@ -201,34 +169,7 @@ namespace Kakeibo.Api
             return response;
         }
 
-        [Function("GetAllSubscriptions")]
-        public async Task<HttpResponseData> GetAllSubscriptions(
-       [HttpTrigger(AuthorizationLevel.Function, "get", Route = "getAllSubscriptions")] HttpRequestData req,
-       CancellationToken cancellationToken)
-        {
-            IReadOnlyList<SubscriptionResponse>? subscriptionResponse;
-            try
-            {
-                subscriptionResponse = await _subscription.GetAllSubscriptionsAsync(cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-                await errorResponse.WriteAsJsonAsync(new { error = "すべての取引を取得中に問題が発生しました。", details = ex.Message }, cancellationToken);
-                return errorResponse;
-            }
-
-            if (subscriptionResponse == null)
-            {
-                var notFoundResponse = req.CreateResponse(HttpStatusCode.NotFound);
-                await notFoundResponse.WriteAsJsonAsync(new { error = "取引が見つかりませんでした。" }, cancellationToken);
-                return notFoundResponse;
-            }
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(subscriptionResponse, cancellationToken);
-            return response;
-
-        }
+        
         [Function("RegisterSubscriptions")]
         public async Task<HttpResponseData> RegisterSubscriptions(
       [HttpTrigger(AuthorizationLevel.Function, "post", Route = "registerSubscriptions")] HttpRequestData req,

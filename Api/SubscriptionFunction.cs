@@ -8,7 +8,6 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Text.Json;
-using static Kakeibo.Application.DTOs.TransactionRequest;
 
 namespace Kakeibo.Api
 {
@@ -105,7 +104,7 @@ namespace Kakeibo.Api
             }
 
             await _subscription.UpdateSubscriptionsAsync(request, cancellationToken);
-            var response = req.CreateResponse(HttpStatusCode.Created);
+            var response = req.CreateResponse(HttpStatusCode.NoContent);
             return response;
         }
         [Function("DeleteSubscriptions")]

@@ -11,7 +11,7 @@ public class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
     public DbSet<CategoryEntity> Categories => Set<CategoryEntity>();
-    public DbSet<TransactionEntity> transactions => Set<TransactionEntity>();
+    public DbSet<TransactionEntity> Transactions => Set<TransactionEntity>();
     public DbSet<MonthlySummaryEntity> MonthlySummaries => Set<MonthlySummaryEntity>();
     public DbSet<SubscriptionEntity> Subscriptions => Set<SubscriptionEntity>();
 

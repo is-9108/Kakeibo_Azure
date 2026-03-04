@@ -95,6 +95,26 @@ namespace Kakeibo.Migrations
                     b.ToTable("MonthlySummaries");
                 });
 
+            modelBuilder.Entity("Kakeibo.Domain.Entities.SubscriptionEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subscriptions");
+                });
+
             modelBuilder.Entity("Kakeibo.Domain.Entities.TransactionEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -120,7 +140,7 @@ namespace Kakeibo.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("transactions");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Kakeibo.Domain.Entities.TransactionEntity", b =>

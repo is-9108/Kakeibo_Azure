@@ -123,7 +123,7 @@ namespace Kakeibo.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("transactions");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Kakeibo.Domain.Entities.TransactionEntity", b =>
