@@ -14,3 +14,26 @@ Content-Type: application/json
   "date": "2025-03-03T00:00:00Z"
 }
 ###
+
+
+
+
+GET {{Kakeibo_HostAddress}}/api/searchTransaction/1
+
+###
+
+PUT {{Kakeibo_HostAddress}}/api/updateTransaction
+Content-Type: application/json
+
+{
+  "id": 1,
+  "categoryId": 1,
+  "memo": "京王ストアで買い物",
+  "amount": 2000,
+  "date": "2025-03-03T00:00:00Z"
+}
+###
+
+DELETE {{Kakeibo_HostAddress}}/api/deleteTransaction/1
+
+###

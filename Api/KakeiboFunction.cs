@@ -22,7 +22,7 @@ namespace Kakeibo.Api
 
         [Function("GetAllCategories")]
         public async Task<HttpResponseData> GetAllCategories(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "api/getAllCategories")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "getAllCategories")] HttpRequestData req,
         CancellationToken cancellationToken)
         {
             IReadOnlyCollection<CategoryResponse>? categories;
@@ -51,7 +51,7 @@ namespace Kakeibo.Api
 
         [Function("GetAllTransactions")]
         public async Task<HttpResponseData> GetAllTransactions(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "api/getAllTransactions")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "getAllTransactions")] HttpRequestData req,
         CancellationToken cancellationToken)
         {
             IReadOnlyCollection<TransactionResponse>? transactions;
@@ -79,7 +79,7 @@ namespace Kakeibo.Api
         }
         [Function("AddTransaction")]
         public async Task<HttpResponseData> AddTransaction(
-        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "api/addTransaction")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "addTransaction")] HttpRequestData req,
         CancellationToken cancellationToken)
         {
             CreateTransactionRequest? request;
@@ -109,7 +109,7 @@ namespace Kakeibo.Api
 
         [Function("SearchTransaction")]
         public async Task<HttpResponseData> SearchTransaction(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "api/searchTransaction/{id}")] HttpRequestData req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "searchTransaction/{id}")] HttpRequestData req,
             string id,
             CancellationToken cancellationToken)
         {
@@ -138,7 +138,7 @@ namespace Kakeibo.Api
         }
         [Function("UpdateTransaction")]
         public async Task<HttpResponseData> UpdateTransaction(
-        [HttpTrigger(AuthorizationLevel.Function, "put", Route = "api/updateTransaction")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Function, "put", Route = "updateTransaction")] HttpRequestData req,
         CancellationToken cancellationToken)
         {
             UpdateTransactionRequest? request;
@@ -167,7 +167,7 @@ namespace Kakeibo.Api
         }
         [Function("DeleteTransaction")]
         public async Task<HttpResponseData> DeleteTransaction(
-            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "api/deleteTransaction/{id}")] HttpRequestData req,
+            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "deleteTransaction/{id}")] HttpRequestData req,
             string id,
             CancellationToken cancellationToken)
         {
