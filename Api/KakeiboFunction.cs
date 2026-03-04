@@ -162,7 +162,40 @@ namespace Kakeibo.Api
             }
 
             await _transaction.UpdateTransactionAsync(request, cancellationToken);
-            var response = req.CreateResponse(HttpStatusCode.Created);
+            var response = req.CreateResponse(HttpStatusCode.NoContent);
+            return response;
+        }
+        [Function("DeleteTransaction")]
+        public async Task<HttpResponseData> DeleteTransaction(
+            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "api/deleteTransaction/{id}")] HttpRequestData req,
+            string id,
+            CancellationToken cancellationToken)
+        {
+            if (!int.TryParse(id, out var transactionId))
+            {
+                var badResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+                await badResponse.WriteAsJsonAsync(new { error = "id は数値である必要があります。" }, cancellationToken);
+                return badResponse;
+            }
+
+            try
+            {
+                await _transaction.DeleteTransactionAsync(transactionId, cancellationToken);
+            }
+            catch (InvalidOperationException)
+            {
+                var notFoundResponse = req.CreateResponse(HttpStatusCode.NotFound);
+                await notFoundResponse.WriteAsJsonAsync(new { error = "取引が見つかりませんでした。" }, cancellationToken);
+                return notFoundResponse;
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
+                await errorResponse.WriteAsJsonAsync(new { error = "削除中に問題が発生しました。", details = ex.Message }, cancellationToken);
+                return errorResponse;
+            }
+
+            var response = req.CreateResponse(HttpStatusCode.NoContent);
             return response;
         }
     }

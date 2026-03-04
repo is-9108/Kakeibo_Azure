@@ -35,6 +35,18 @@ namespace Kakeibo.Infrastructure.Repositories
             return;
         }
 
+        public async Task DeleteTransactionAsync(int id, CancellationToken cancellationToken = default)
+        {
+            var entity = await _context.transactions.Where(t => t.Id == id).FirstOrDefaultAsync();
+            
+            if (entity == null)
+                throw new InvalidOperationException("取引が存在しません");
+
+            _context.transactions.Remove(entity);
+
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
         public async Task<IReadOnlyList<TransactionResponse>> GetAllTransactionsAsync(CancellationToken cancellationToken = default)
         {
             return await _context.transactions
@@ -60,6 +72,23 @@ namespace Kakeibo.Infrastructure.Repositories
                     t.Amount,
                     t.Date))
                 .ToListAsync(cancellationToken);
+        }
+
+        public async Task UpdateTransactionAsync(UpdateTransactionRequest request, CancellationToken cancellationToken = default)
+        {
+            var transaction = _context.transactions.Where(t =>  t.Id == request.Id).FirstOrDefault();
+            if (transaction == null)
+                throw new InvalidOperationException("取引が存在しません");
+
+            transaction.CategoryId = request.CategoryId;
+            transaction.Memo = request.Memo;
+            transaction.Amount = request.Amount;
+            transaction.Date = request.Date;
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return;
+
         }
     }
 }

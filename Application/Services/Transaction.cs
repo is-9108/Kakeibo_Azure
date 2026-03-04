@@ -24,6 +24,11 @@ namespace Kakeibo.Application.Services
             return;
         }
 
+        public async Task DeleteTransactionAsync(int id, CancellationToken cancellationToken = default)
+        {
+            await _transaction.DeleteTransactionAsync(id, cancellationToken);
+        }
+
         public async Task<IReadOnlyList<TransactionResponse>> GetAllTransactionsAsync(CancellationToken cancellationToken = default)
         {
             return await _transaction.GetAllTransactionsAsync(cancellationToken);
@@ -38,5 +43,7 @@ namespace Kakeibo.Application.Services
         {
              await _transaction.UpdateTransactionAsync(request, cancellationToken);
         }
+
+
     }
 }
