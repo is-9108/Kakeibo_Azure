@@ -13,11 +13,13 @@ namespace Kakeibo.Api
     {
         private readonly ICategory _category;
         private readonly ITransaction _transaction;
+        private readonly ISubscription _subscription;
 
-        public KakeiboFunction(ICategory category, ITransaction transaction)
+        public KakeiboFunction(ICategory category, ITransaction transaction, ISubscription subscription)
         {
             _category = category;
             _transaction = transaction;
+            _subscription = subscription;
         }
 
         [Function("GetAllCategories")]
@@ -196,6 +198,53 @@ namespace Kakeibo.Api
             }
 
             var response = req.CreateResponse(HttpStatusCode.NoContent);
+            return response;
+        }
+
+        [Function("GetAllSubscriptions")]
+        public async Task<HttpResponseData> GetAllSubscriptions(
+       [HttpTrigger(AuthorizationLevel.Function, "get", Route = "getAllSubscriptions")] HttpRequestData req,
+       CancellationToken cancellationToken)
+        {
+            IReadOnlyList<SubscriptionResponse>? subscriptionResponse;
+            try
+            {
+                subscriptionResponse = await _subscription.GetAllSubscriptionsAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
+                await errorResponse.WriteAsJsonAsync(new { error = "すべての取引を取得中に問題が発生しました。", details = ex.Message }, cancellationToken);
+                return errorResponse;
+            }
+
+            if (subscriptionResponse == null)
+            {
+                var notFoundResponse = req.CreateResponse(HttpStatusCode.NotFound);
+                await notFoundResponse.WriteAsJsonAsync(new { error = "取引が見つかりませんでした。" }, cancellationToken);
+                return notFoundResponse;
+            }
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(subscriptionResponse, cancellationToken);
+            return response;
+
+        }
+        [Function("RegisterSubscriptions")]
+        public async Task<HttpResponseData> RegisterSubscriptions(
+      [HttpTrigger(AuthorizationLevel.Function, "post", Route = "registerSubscriptions")] HttpRequestData req,
+      CancellationToken cancellationToken)
+        {
+            try
+            {
+                await _transaction.RegisterSubscriptionAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
+                await errorResponse.WriteAsJsonAsync(new { error = "サブスクの登録中に問題が発生しました。", details = ex.Message }, cancellationToken);
+                return errorResponse;
+            }
+            var response = req.CreateResponse(HttpStatusCode.Created);
             return response;
         }
     }

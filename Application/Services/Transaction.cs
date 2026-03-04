@@ -34,6 +34,11 @@ namespace Kakeibo.Application.Services
             return await _transaction.GetAllTransactionsAsync(cancellationToken);
         }
 
+        public async Task RegisterSubscriptionAsync(CancellationToken cancellationToken = default)
+        {
+            await _transaction.RegisterSubscriptionAsync(cancellationToken);
+        }
+
         public async Task<IReadOnlyList<TransactionResponse>> SearchTransactionAsync(int id, CancellationToken cancellationToken = default)
         {
             return await _transaction.SearchTransactionAsync(id, cancellationToken);

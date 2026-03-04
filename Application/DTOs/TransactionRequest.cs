@@ -10,6 +10,8 @@ namespace Kakeibo.Application.DTOs
     {
         public record CreateTransactionRequest(int CategoryId, string Memo, int Amount,DateTime Date);
         public record UpdateTransactionRequest(int Id, int CategoryId, string Memo, int Amount, DateTime Date);
+        
+
 
     }
 }

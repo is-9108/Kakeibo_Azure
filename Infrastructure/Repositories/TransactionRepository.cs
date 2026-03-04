@@ -60,6 +60,25 @@ namespace Kakeibo.Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
+        public async Task RegisterSubscriptionAsync(CancellationToken cancellationToken)
+        {
+            var subscription = _context.Subscriptions.ToList();
+
+            foreach(var t in subscription)
+            {
+                var transaction = new TransactionEntity
+                {
+                    Amount = t.Amount,
+                    CategoryId = 10,
+                    Memo = t.Name,
+                    Date = DateTime.UtcNow
+                };
+                _context.transactions.Add(transaction);
+            }
+            await _context.SaveChangesAsync(cancellationToken);
+
+        }
+
         public async Task<IReadOnlyList<TransactionResponse>> SearchTransactionAsync(int id, CancellationToken cancellationToken = default)
         {
             return await _context.transactions

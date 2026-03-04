@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
     public DbSet<CategoryEntity> Categories => Set<CategoryEntity>();
     public DbSet<TransactionEntity> transactions => Set<TransactionEntity>();
     public DbSet<MonthlySummaryEntity> MonthlySummaries => Set<MonthlySummaryEntity>();
+    public DbSet<SubscriptionEntity> Subscriptions => Set<SubscriptionEntity>();
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

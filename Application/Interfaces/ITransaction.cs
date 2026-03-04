@@ -15,5 +15,6 @@ namespace Kakeibo.Application.Interfaces
         Task<IReadOnlyList<TransactionResponse>> SearchTransactionAsync(int id, CancellationToken cancellationToken = default);
         Task UpdateTransactionAsync(UpdateTransactionRequest request, CancellationToken cancellationToken = default);
         Task DeleteTransactionAsync(int id, CancellationToken cancellationToken = default);
+        Task RegisterSubscriptionAsync(CancellationToken cancellationToken = default);
     }
 }
