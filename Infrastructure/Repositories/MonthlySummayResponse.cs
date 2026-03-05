@@ -35,7 +35,6 @@ namespace Kakeibo.Infrastructure.Repositories
             var shuusi = totalIncome - totalExpense;
 
             var byCategory = transactions
-                .Where(t => !t.Category.IsIncome)
                 .GroupBy(t => t.Category.Name)
                 .Select(g => new
                 {
