@@ -23,7 +23,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<ICategory, CategoryRepository>();
 builder.Services.AddScoped<ITransaction, TransactionRepository>();
 builder.Services.AddScoped<ISubscription,SubscriptionRepository>();
-
+builder.Services.AddScoped<ISummary, MonthlySummayResponse>();
 // Application Insights isn't enabled by default. See https://aka.ms/AAt8mw4.
 // builder.Services
 //     .AddApplicationInsightsTelemetryWorkerService()

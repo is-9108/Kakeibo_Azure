@@ -62,6 +62,10 @@ namespace Kakeibo.Infrastructure.Repositories
 
         public async Task RegisterSubscriptionAsync(CancellationToken cancellationToken)
         {
+            var categoryId = _context.Categories.Where(c => c.Name == "サブスク").FirstOrDefault()?.Id;
+            if(categoryId is null)
+                throw new InvalidOperationException("サブスクカテゴリが存在しません");
+
             var subscription = _context.Subscriptions.ToList();
 
             foreach(var t in subscription)
@@ -69,7 +73,7 @@ namespace Kakeibo.Infrastructure.Repositories
                 var transaction = new TransactionEntity
                 {
                     Amount = t.Amount,
-                    CategoryId = 10,
+                    CategoryId = (int)categoryId,
                     Memo = t.Name,
                     Date = DateTime.UtcNow
                 };

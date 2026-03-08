@@ -22,7 +22,7 @@ namespace Kakeibo.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task CreateMonthlySummaysync(CancellationToken cancellationToken = default)
+        public async Task CreateMonthlySummayAsync(CancellationToken cancellationToken = default)
         {
             var transactions = await _context.Transactions.Include(t => t.Category).ToListAsync(cancellationToken);
 
@@ -59,7 +59,7 @@ namespace Kakeibo.Infrastructure.Repositories
                 Subscription = byCategory.Where(c => c.CategoryName == "サブスク").Sum(c => c.TotalAmount),
                 Sonota = byCategory.Where(c => c.CategoryName == "その他").Sum(c => c.TotalAmount),
                 Kyuryo = byCategory.Where(c => c.CategoryName == "給料").Sum(c => c.TotalAmount),
-                RinjiShunyu = byCategory.Where(c => c.CategoryName == "臨時給料").Sum(c => c.TotalAmount)
+                RinjiShunyu = byCategory.Where(c => c.CategoryName == "臨時収入").Sum(c => c.TotalAmount)
             };
 
             await _context.MonthlySummaries.AddAsync(monthlySummary, cancellationToken);

@@ -11,24 +11,24 @@ namespace Kakeibo.Domain.Entities
     {
         [Key]
         public string Month { get; set; } = string.Empty;
-        public int Shuusi { get; set; }
+        public int Shuusi { get; set; } = 0;
 
         //支出(IsIncome = false)
-        public int Shokuhi { get; set; }
-        public int Gaishokuhi { get; set; }
-        public int Kounetsuhi { get; set; }
-        public int Tsuusinhi { get; set; }
-        public int Suidouhi { get; set; }
-        public int Koutsuhi { get; set; }
-        public int Iryouhi { get; set; }
-        public int Zeikin { get; set; }
-        public int Yachin { get; set; }
-        public int Subscription { get; set; }
-        public int Sonota { get; set; }
+        public int Shokuhi { get; set; } = 0;
+        public int Gaishokuhi { get; set; } = 0;
+        public int Kounetsuhi { get; set; } = 0;
+        public int Tsuusinhi { get; set; } = 0;
+        public int Suidouhi { get; set; } = 0;
+        public int Koutsuhi { get; set; } = 0;
+        public int Iryouhi { get; set; } = 0;
+        public int Zeikin { get; set; } = 0;
+        public int Yachin { get; set; } = 0;
+        public int Subscription { get; set; } = 0;
+        public int Sonota { get; set; } = 0;
 
         //収入(IsIncome = true)
-        public int Kyuryo { get; set; }
-        public int RinjiShunyu { get; set; }
+        public int Kyuryo { get; set; } = 0;
+        public int RinjiShunyu { get; set; } = 0;
 
     }
 }

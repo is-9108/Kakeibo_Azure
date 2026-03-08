@@ -10,7 +10,7 @@ namespace Kakeibo.Application.Interfaces
     public interface ISummary
     {
         Task<IReadOnlyList<MonthlySummaryResponse>> GetMonthlySummarieAsync(CancellationToken cancellationToken = default);
-        Task CreateMonthlySummaysync(CancellationToken cancellationToken = default);
+        Task CreateMonthlySummayAsync(CancellationToken cancellationToken = default);
 
     }
 }

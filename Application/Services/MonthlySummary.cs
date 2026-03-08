@@ -18,9 +18,9 @@ namespace Kakeibo.Application.Services
             _summary = summary;
         }
 
-        public async Task CreateMonthlySummaysync(CancellationToken cancellationToken = default)
+        public async Task CreateMonthlySummayAsync(CancellationToken cancellationToken = default)
         {
-            await _summary.CreateMonthlySummaysync(cancellationToken);
+            await _summary.CreateMonthlySummayAsync(cancellationToken);
         }
 
         public async Task<IReadOnlyList<MonthlySummaryResponse>> GetMonthlySummarieAsync(CancellationToken cancellationToken = default)
