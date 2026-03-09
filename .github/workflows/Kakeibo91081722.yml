@@ -9,7 +9,6 @@ env:
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 8.0.x
   WORKING_DIRECTORY: .
-  DOTNET_CORE_VERSION_INPROC: 6.0.x
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,17 +18,23 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
-    - name: Setup .NET Core (for inproc extensions)
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: ${{ env.DOTNET_CORE_VERSION_INPROC }}
-        dotnet-quality: preview
     - name: Restore
       run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
     - name: Build
       run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
     - name: Publish
       run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build
+    - name: Copy .azurefunctions to publish output
+      run: |
+        PUBLISH_OUTPUT="${{ env.WORKING_DIRECTORY }}/${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}"
+        if [ -d "${{ env.WORKING_DIRECTORY }}/bin/${{ env.CONFIGURATION }}/net8.0/.azurefunctions" ]; then
+          cp -r "${{ env.WORKING_DIRECTORY }}/bin/${{ env.CONFIGURATION }}/net8.0/.azurefunctions" "$PUBLISH_OUTPUT/"
+        elif [ -d "${{ env.WORKING_DIRECTORY }}/obj/${{ env.CONFIGURATION }}/net8.0/.azurefunctions" ]; then
+          cp -r "${{ env.WORKING_DIRECTORY }}/obj/${{ env.CONFIGURATION }}/net8.0/.azurefunctions" "$PUBLISH_OUTPUT/"
+        else
+          echo "::warning::.azurefunctions not found in bin or obj; listing bin:"
+          ls -la "${{ env.WORKING_DIRECTORY }}/bin/${{ env.CONFIGURATION }}/net8.0/" || true
+        fi
     - name: Publish Artifacts
       uses: actions/upload-artifact@v4
       with:
