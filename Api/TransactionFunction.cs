@@ -38,7 +38,7 @@ namespace Kakeibo.Api
             {
                 _logger.LogError(ex, "GetAllTransactions: 取引一覧の取得に失敗しました");
                 var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-                await errorResponse.WriteAsJsonAsync(new { error = "すべての取引を取得中に問題が発生しました。", details = ex.Message }, cancellationToken);
+                await errorResponse.WriteAsJsonAsync(new { error = "すべての取引を取得中に問題が発生しました", details = ex.Message }, cancellationToken);
                 return errorResponse;
             }
 
@@ -46,7 +46,7 @@ namespace Kakeibo.Api
             {
                 _logger.LogWarning("GetAllTransactions: 取引が null で返されました");
                 var notFoundResponse = req.CreateResponse(HttpStatusCode.NotFound);
-                await notFoundResponse.WriteAsJsonAsync(new { error = "取引が見つかりませんでした。" }, cancellationToken);
+                await notFoundResponse.WriteAsJsonAsync(new { error = "取引が見つかりませんでした" }, cancellationToken);
                 return notFoundResponse;
             }
             _logger.LogInformation("GetAllTransactions 成功 件数: {Count}", transactions.Count);
@@ -99,7 +99,7 @@ namespace Kakeibo.Api
             {
                 _logger.LogWarning("SearchTransaction: 無効な id が指定されました id: {Id}", id);
                 var badResponse = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badResponse.WriteAsJsonAsync(new { error = "id は数値である必要があります。" }, cancellationToken);
+                await badResponse.WriteAsJsonAsync(new { error = "id は数値である必要があります" }, cancellationToken);
                 return badResponse;
             }
 
@@ -112,7 +112,7 @@ namespace Kakeibo.Api
             {
                 _logger.LogError(ex, "SearchTransaction: 検索に失敗しました id: {TransactionId}", transactionId);
                 var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-                await errorResponse.WriteAsJsonAsync(new { error = "検索中に問題が発生しました。", details = ex.Message }, cancellationToken);
+                await errorResponse.WriteAsJsonAsync(new { error = "検索中に問題が発生しました", details = ex.Message }, cancellationToken);
                 return errorResponse;
             }
 
@@ -165,7 +165,7 @@ namespace Kakeibo.Api
             {
                 _logger.LogWarning("DeleteTransaction: 無効な id が指定されました id: {Id}", id);
                 var badResponse = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badResponse.WriteAsJsonAsync(new { error = "id は数値である必要があります。" }, cancellationToken);
+                await badResponse.WriteAsJsonAsync(new { error = "id は数値である必要があります" }, cancellationToken);
                 return badResponse;
             }
 
@@ -177,14 +177,14 @@ namespace Kakeibo.Api
             {
                 _logger.LogWarning("DeleteTransaction: 取引が見つかりませんでした id: {TransactionId}", transactionId);
                 var notFoundResponse = req.CreateResponse(HttpStatusCode.NotFound);
-                await notFoundResponse.WriteAsJsonAsync(new { error = "取引が見つかりませんでした。" }, cancellationToken);
+                await notFoundResponse.WriteAsJsonAsync(new { error = "取引が見つかりませんでした" }, cancellationToken);
                 return notFoundResponse;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "DeleteTransaction: 削除に失敗しました id: {TransactionId}", transactionId);
                 var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-                await errorResponse.WriteAsJsonAsync(new { error = "削除中に問題が発生しました。", details = ex.Message }, cancellationToken);
+                await errorResponse.WriteAsJsonAsync(new { error = "削除中に問題が発生しました", details = ex.Message }, cancellationToken);
                 return errorResponse;
             }
 
@@ -208,7 +208,7 @@ namespace Kakeibo.Api
             {
                 _logger.LogError(ex, "RegisterSubscriptions: サブスク登録に失敗しました");
                 var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-                await errorResponse.WriteAsJsonAsync(new { error = "サブスクの登録中に問題が発生しました。", details = ex.Message }, cancellationToken);
+                await errorResponse.WriteAsJsonAsync(new { error = "サブスクの登録中に問題が発生しました", details = ex.Message }, cancellationToken);
                 return errorResponse;
             }
             _logger.LogInformation("RegisterSubscriptions 成功");

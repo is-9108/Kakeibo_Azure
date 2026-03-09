@@ -33,7 +33,7 @@ public class SummaryFunction
         {
             _logger.LogError(ex, "GetAllSummay: 月次集計一覧の取得に失敗しました");
             var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            await errorResponse.WriteAsJsonAsync(new { error = "月次集計の取得中に問題が発生しました。", details = ex.Message }, cancellationToken);
+            await errorResponse.WriteAsJsonAsync(new { error = "月次集計の取得中に問題が発生しました", details = ex.Message }, cancellationToken);
             return errorResponse;
         }
 
@@ -41,7 +41,7 @@ public class SummaryFunction
         {
             _logger.LogWarning("GetAllSummay: 月次集計が null で返されました");
             var notFoundResponse = req.CreateResponse(HttpStatusCode.NotFound);
-            await notFoundResponse.WriteAsJsonAsync(new { error = "月次集計の取得に失敗しました。" }, cancellationToken);
+            await notFoundResponse.WriteAsJsonAsync(new { error = "月次集計の取得に失敗しました" }, cancellationToken);
             return notFoundResponse;
         }
         _logger.LogInformation("GetAllSummay 成功 件数: {Count}", summaries.Count);
@@ -63,7 +63,7 @@ public class SummaryFunction
         {
             _logger.LogError(ex, "CreateSummay: 月次集計の作成に失敗しました");
             var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-            await errorResponse.WriteAsJsonAsync(new { error = "月次集計の取得中に問題が発生しました。", details = ex.Message }, cancellationToken);
+            await errorResponse.WriteAsJsonAsync(new { error = "月次集計の取得中に問題が発生しました", details = ex.Message }, cancellationToken);
             return errorResponse;
         }
 

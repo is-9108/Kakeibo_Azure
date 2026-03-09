@@ -42,7 +42,7 @@ namespace Kakeibo.Api
             {
                 _logger.LogWarning("GetAllCategories: カテゴリが null で返されました");
                 var notFoundResponse = req.CreateResponse(HttpStatusCode.NotFound);
-                await notFoundResponse.WriteAsJsonAsync(new { error = "カテゴリが見つかりませんでした。" }, cancellationToken);
+                await notFoundResponse.WriteAsJsonAsync(new { error = "カテゴリが見つかりませんでした" }, cancellationToken);
                 return notFoundResponse;
             }
 

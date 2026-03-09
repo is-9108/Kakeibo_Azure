@@ -34,7 +34,7 @@ namespace Kakeibo.Api
             {
                 _logger.LogError(ex, "GetAllSubscriptions: サブスク一覧の取得に失敗しました");
                 var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-                await errorResponse.WriteAsJsonAsync(new { error = "すべての取引を取得中に問題が発生しました。", details = ex.Message }, cancellationToken);
+                await errorResponse.WriteAsJsonAsync(new { error = "すべての取引を取得中に問題が発生しました", details = ex.Message }, cancellationToken);
                 return errorResponse;
             }
 
@@ -42,7 +42,7 @@ namespace Kakeibo.Api
             {
                 _logger.LogWarning("GetAllSubscriptions: サブスクが null で返されました");
                 var notFoundResponse = req.CreateResponse(HttpStatusCode.NotFound);
-                await notFoundResponse.WriteAsJsonAsync(new { error = "取引が見つかりませんでした。" }, cancellationToken);
+                await notFoundResponse.WriteAsJsonAsync(new { error = "取引が見つかりませんでした" }, cancellationToken);
                 return notFoundResponse;
             }
             _logger.LogInformation("GetAllSubscriptions 成功 件数: {Count}", subscriptionResponse.Count);
@@ -133,14 +133,14 @@ namespace Kakeibo.Api
             {
                 _logger.LogWarning("DeleteSubscriptions: サブスクが見つかりませんでした id: {Id}", id);
                 var notFoundResponse = req.CreateResponse(HttpStatusCode.NotFound);
-                await notFoundResponse.WriteAsJsonAsync(new { error = "取引が見つかりませんでした。" }, cancellationToken);
+                await notFoundResponse.WriteAsJsonAsync(new { error = "取引が見つかりませんでした" }, cancellationToken);
                 return notFoundResponse;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "DeleteSubscriptions: 削除に失敗しました id: {Id}", id);
                 var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
-                await errorResponse.WriteAsJsonAsync(new { error = "削除中に問題が発生しました。", details = ex.Message }, cancellationToken);
+                await errorResponse.WriteAsJsonAsync(new { error = "削除中に問題が発生しました", details = ex.Message }, cancellationToken);
                 return errorResponse;
             }
 
